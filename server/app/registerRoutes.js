@@ -15,7 +15,12 @@ function registerRoutes(app) {
       const moduleRoutes = routes.stack;
 
       moduleRoutes.forEach((route) => {
-        console.warn("[Info] Registering API ROUTE :-", route.route.path);
+        console.info(
+          "\x1b[35m",
+          "[Info] Registering API ROUTE :-",
+          route.route.path,
+          "\x1b[0m"
+        );
       });
       apiRouter.use("/", routes);
     });

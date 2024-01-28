@@ -1,5 +1,5 @@
 require("dotenv-extended").load({
-  path: "./app/.env.development",
+  path: "./.env.development",
 });
 const express = require("express");
 const Sequelize = require("sequelize");
