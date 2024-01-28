@@ -1,16 +1,20 @@
-require("dotenv-extended").load({
-  path: "./.env.development",
-});
-const express = require("express");
-const Sequelize = require("sequelize");
-const config = require("./config/config");
-const registerRoutes = require("./registerRoutes");
-const app = express();
-const sequelize = new Sequelize(config.database);
+const pg = require("pg");
 
 async function startServer() {
   try {
     console.log("[DEBUG] Establishing DB connection");
+
+    // Create database if it doesn't exist
+    const dbName = config.database.database;
+    const client = new pg.Client({
+      user: config.database.username,
+      password: config.database.password,
+      host: config.database.host,
+    });
+    await client.connect();
+    await client.query(`CREATE DATABASE IF NOT EXISTS ${dbName};`);
+    await client.end();
+
     await sequelize.authenticate();
     console.log("[DEBUG] Established DB connection");
 
@@ -28,5 +32,3 @@ async function startServer() {
     process.exit(1);
   }
 }
-
-startServer();
