@@ -22,6 +22,7 @@ function registerRoutes(app) {
           "\x1b[0m"
         );
       });
+
       apiRouter.use("/", routes);
     });
 
