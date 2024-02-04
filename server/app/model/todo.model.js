@@ -3,29 +3,35 @@ const sequelize = require("../db");
 const { v4: uuidv4 } = require("uuid");
 
 module.exports = () => {
-  const User = sequelize.define("User", {
+  const Todo = sequelize.define("Todo", {
     userId: {
+      type: Sequelize.UUID,
+      allowNull: false,
+    },
+
+    id: {
       type: Sequelize.UUID,
       primaryKey: true,
       allowNull: false,
       defaultValue: () => uuidv4(),
     },
-    password: {
+    title: {
       type: Sequelize.STRING,
       allowNull: false,
     },
-    email: {
+    status: {
       type: Sequelize.STRING,
       allowNull: false,
+      defaultValue: "Pending",
     },
   });
 
-  User.associate = (model) => {
-    User.hasMany(model.Todo, {
+  Todo.associate = (model) => {
+    Todo.belongTo(model.User, {
       foreignKey: "userId",
-      as: "todos",
+      as: "user",
     });
   };
 
-  return User;
+  return Todo;
 };

@@ -2,8 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 import { appUserApi } from "../services/appUser.services";
 
 const initialState = {
-  appToken: "",
-  user: {},
+  appToken: localStorage.getItem("appToken") || "",
+  user: JSON.parse(localStorage.getItem("appUser")) || {},
 };
 
 export const appUserSlice = createSlice({
@@ -17,6 +17,11 @@ export const appUserSlice = createSlice({
         (state, action) => {
           state.appToken = action.payload.token;
           state.user = action.payload.user;
+          localStorage.setItem("appToken", action.payload.token);
+          localStorage.setItem(
+            "appUser",
+            JSON.stringify({ ...action.payload.user })
+          );
         }
       )
       .addMatcher(
@@ -24,6 +29,11 @@ export const appUserSlice = createSlice({
         (state, action) => {
           state.appToken = action.payload.token;
           state.user = action.payload.user;
+          localStorage.setItem(
+            "appUser",
+            JSON.stringify({ ...action.payload.user })
+          );
+          localStorage.setItem("appToken", action.payload.token);
         }
       );
   },

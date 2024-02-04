@@ -30,11 +30,17 @@ const LoginOrSignUp = () => {
         return;
       }
 
-      if (!isSignUp) {
-        await login(formValues);
-      } else await signUp(formValues);
-
-      navigate(appRoutesConstants.TODOS);
+      try {
+        if (!isSignUp) {
+          await login(formValues);
+          navigate(appRoutesConstants.TODOS);
+        } else {
+          await signUp(formValues);
+          navigate(appRoutesConstants.TODOS);
+        }
+      } catch (error) {
+        console.log("error", error);
+      }
     } else {
       alert("please provide both fields");
     }
